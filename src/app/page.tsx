@@ -2,45 +2,26 @@
 
 import Head from 'next/head';
 import React, { useState, FunctionComponent, ReactNode } from 'react';
-import '/styles/styles.home.css';  
+import '../../styles/styles.home.css';
+ 
 
 export default function Home() {
-
-
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleNavbar = () => setIsOpen(!isOpen);
 
-
   type PrimaryButtonProps = {
     text: string;
     link: string;
-    disabled?: boolean; // Optional disabled property
   };
 
-  const BuyButton: React.FC<PrimaryButtonProps> = ({ text, link, disabled = false }) => {
-    const buttonClass = `inline-flex h-12 items-center justify-center rounded-xl border border-transparent px-6 py-2.5 text-base font-semibold text-white transition-all duration-200 ${disabled ? 'bg-gray-400 hover:bg-gray-400 cursor-not-allowed' : 'bg-primary-900 hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-gray-900 focus:ring-offset-2'}`;
-
+  const BuyButton: React.FC<PrimaryButtonProps> = ({ text, link}) => {
     return (
       <div className="flex justify-center items-center mt-4">
-        {disabled ? (
-          // Render as a button or div if disabled to avoid clickable behavior
-          <div className={buttonClass}>{text}</div>
-        ) : (
-          // Use Link for navigable buttons
-          <a
-            href={link}
-            rel="noopener" target='_blank'
-            className="inline-flex h-12 items-center justify-center rounded-xl border border-transparent bg-primary-900 px-6 py-2.5 text-base font-semibold text-white transition-all duration-200 hover:bg-primary-700 focus:outline-none  focus:ring-offset-2"
-          >
-            {text}
-          </a>
-        )}
+          <a className="btn btn-primary btn-xl" href={link}> {text}</a>
       </div>
     );
   };
-
-
   
   type CollapsibleSectionProps = {
     summary: string;
@@ -107,7 +88,6 @@ export default function Home() {
     features: string[];
     buttonText: string;
     buttonLink: string;
-    buttonDisabled?: boolean;
   }
 
   const PlanCard: React.FC<PlanCardProps> = ({
@@ -115,8 +95,7 @@ export default function Home() {
     price,
     features,
     buttonText,
-    buttonLink,
-    buttonDisabled = false
+    buttonLink
   }) => {
     return (
       <div className="bg-white shadow-lg rounded-lg p-8 flex-1">
@@ -134,7 +113,7 @@ export default function Home() {
             <CheckIconLabel key={index} text={feature} isBold={index == 0} />
           ))}
         </div>
-        <BuyButton text={buttonText} link={buttonLink} disabled={buttonDisabled} />
+        <BuyButton text={buttonText} link={buttonLink}  />
       </div>
     );
   };
@@ -155,7 +134,7 @@ export default function Home() {
       </Head>
       <nav className="bg-white shadow">
   <div className="container mx-auto flex items-center justify-between p-4">
-    <a className="text-xl font-bold text-gray-800 hover:text-gray-600" href="#page-top">
+    <a className="text-xl font-bold text-gray-800 hover:text-gray-600 no-underline" href="#page-top">
       FlexiBuilder
     </a>
     <button 
@@ -167,22 +146,22 @@ export default function Home() {
     <div className={`${isOpen ? "block" : "hidden"} w-full md:flex md:items-center md:w-auto`}>
       <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
         <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0" href="#about">
+          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#about">
             How It Works
           </a>
         </li>
         <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0" href="#services">
+          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#services">
             Services
           </a>
         </li>
         <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0" href="#pricing">
+          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#pricing">
             Pricing
           </a>
         </li>
         <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0" href="#faq">
+          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#faq">
             FAQs
           </a>
         </li>
@@ -209,7 +188,10 @@ export default function Home() {
         </header>
         {/* <!-- About--> */}
         <section id="about" className="py-12 bg-gray-100">
+        <h2 className="text-center text-2xl font-bold mb-4">How It Works</h2>
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 lg:px-16">
+
               <div className="text-center">
                 <div className="mt-5">
                   <div className="mb-2">
@@ -297,7 +279,7 @@ export default function Home() {
                       <i className="bi-heart text-4xl text-blue-500"></i>
                     </div>
                     <h3 className="text-xl font-semibold mb-2">More</h3>
-                    <p className="text-gray-600">Is it really open source if it's not made with love?</p>
+                    <p className="text-gray-600">True open source isn't just about code—it's about creating something with passion and care.</p>
                   </div>
                 </div>
               </div>
