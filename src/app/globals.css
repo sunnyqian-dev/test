@@ -1,8 +1,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+ 
 
+@keyframes animate-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  33% {
+    transform: translateX(-100%);
+  }
+  66% {
+    transform: translateX(-200%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
 
+.animate-scroll {
+  display: flex;
+  animation: animate-scroll 9s infinite;
+}
 
 :root {
   --background: #ffffff;

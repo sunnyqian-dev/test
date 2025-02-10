@@ -2,7 +2,7 @@
 
 import Head from 'next/head';
 import React, { useState, FunctionComponent, ReactNode } from 'react';
-import '../../styles/styles.home.css';
+// import '../../styles/styles.home.css';
  
 
 export default function Home() {
@@ -18,7 +18,10 @@ export default function Home() {
   const BuyButton: React.FC<PrimaryButtonProps> = ({ text, link}) => {
     return (
       <div className="flex justify-center items-center mt-4">
-          <a className="btn btn-primary btn-xl" href={link}> {text}</a>
+        
+          <a     className="bg-gradient-to-r from-[#ff6a00] to-[#ff9e00] text-white font-bold py-3 px-8 rounded-lg text-center shadow-lg hover:shadow-xl hover:bg-gradient-to-l focus:outline-none transition duration-300"
+   
+ href={link}> {text}</a>
       </div>
     );
   };
@@ -34,15 +37,15 @@ export default function Home() {
     const toggleOpen = () => setIsOpen(!isOpen);
 
     return (
-      <details className="overflow-hidden rounded-xl border border-gray-200 bg-white" onToggle={toggleOpen}>
+      <details className="overflow-hidden rounded-lg border border-gray-200 bg-white" onToggle={toggleOpen}>
         <summary className="flex w-full cursor-pointer items-center justify-between px-4 py-3 text-left text-lg font-bold text-gray-900 sm:p-8">
           <span>{summary}</span>
           {!isOpen ? (
-            <svg className="ml-4 h-6 w-6 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="ml-4 h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
             </svg>
           ) : (
-            <svg className="ml-4 h-6 w-6 text-gray-900" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <svg className="ml-4 h-6 w-6 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 12H4" />
             </svg>
           )}
@@ -82,10 +85,31 @@ export default function Home() {
     );
   };
 
+  interface AboutProps{
+    title:string;
+    detail:string;
+  }
+  const About: React.FC<AboutProps>=({
+    title,
+    detail
+  })=>{
+    return(
+      <div className="bg-gradient-to-r from-[#f8c9b6] to-[#f9e1cc]shadow-lg rounded-lg p-8 flex-1">
+      <div className='flex flex-col items-start'>
+        <div className="text-lg font-semibold ">{title}&nbsp;&nbsp;</div>
+        <div className='flex flex-row items-center '>
+          <div className="space-y-1">{detail}</div>
+        </div>
+      </div>
+      </div>
+    );
+  };
+
   interface PlanCardProps {
     planName: string;
     price: string;
-    features: string[];
+    description: string;
+    example: string;
     buttonText: string;
     buttonLink: string;
   }
@@ -93,12 +117,13 @@ export default function Home() {
   const PlanCard: React.FC<PlanCardProps> = ({
     planName,
     price,
-    features,
+    description,
+    example,
     buttonText,
     buttonLink
   }) => {
     return (
-      <div className="bg-white shadow-lg rounded-lg p-8 flex-1">
+      <div className="bg-gradient-to-r from-[#a0d6d1] to-[#c3e5e1] shadow-lg rounded-lg p-8 flex-1">
         <div className='flex flex-col items-start'>
           <div className="text-lg font-semibold">{planName}&nbsp;&nbsp;</div>
           <div className='flex flex-row items-center '>
@@ -106,13 +131,10 @@ export default function Home() {
             <div className="text-base font-semibold text-gray-600">&nbsp;/&nbsp;month</div>
           </div>
         </div>
-        <p className='text-sm text-gray-400'>Pause or cancel any time</p>
         <p className="mt-2">What’s included?</p>
-        <div className="space-y-1">
-          {features.map((feature, index) => (
-            <CheckIconLabel key={index} text={feature} isBold={index == 0} />
-          ))}
-        </div>
+        <div className="space-y-1">{description}</div>
+        <div className="space-y-1">For example:{example}</div>
+
         <BuyButton text={buttonText} link={buttonLink}  />
       </div>
     );
@@ -124,122 +146,118 @@ export default function Home() {
       <Head>
         <title>Flexibility-Flexible Solutions, Rapid Results</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="FlexiBuilder - Build Software Solutions with Flexibility and Ease" />
-        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/SimpleLightbox/2.1.0/simpleLightbox.min.css" rel="stylesheet" />
+        <meta name="description" content="FlexiBuilder - Build Software Solutions with Flexibility and Ease" /> 
         <link href="/css/styles.css" rel="stylesheet" />
       </Head>
-      <nav className="bg-white shadow">
-  <div className="container mx-auto flex items-center justify-between p-4">
-    <a className="text-xl font-bold text-gray-800 hover:text-gray-600 no-underline" href="#page-top">
-      FlexiBuilder
-    </a>
-    <button 
-      className="text-gray-800 focus:outline-none md:hidden" 
-      onClick={toggleNavbar}
-    >
-      <span className="text-2xl">☰</span>
-    </button>
-    <div className={`${isOpen ? "block" : "hidden"} w-full md:flex md:items-center md:w-auto`}>
-      <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
-        <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#about">
-            How It Works
-          </a>
-        </li>
-        <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#services">
-            Services
-          </a>
-        </li>
-        <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#pricing">
-            Pricing
-          </a>
-        </li>
-        <li>
-          <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#faq">
-            FAQs
-          </a>
-        </li>
-      </ul>
+
+      {/* <!-- Navigation--> */}
+      <nav className="shadow">
+      <div className="container mx-auto flex items-center justify-between p-4">
+      <a className="text-xl font-bold text-gray-800 hover:text-gray-600 no-underline relative animate-glow" href="#page-top">
+  FlexiBuilder
+</a>
+
+        <button 
+          className="text-gray-800 focus:outline-none md:hidden" 
+          onClick={toggleNavbar}
+        >
+          <span className="text-2xl">☰</span>
+        </button>
+        <div className={`${isOpen ? "block" : "hidden"} w-full md:flex md:items-center md:w-auto`}>
+          <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
+            <li>
+              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#about">
+                How It Works
+              </a>
+            </li>
+            <li>
+              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#pricing">
+                Plans
+              </a>
+            </li>
+            <li>
+              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#faq">
+                FAQs
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      </nav>
+
+{/* home */}
+<header className="pt-0 pb-[calc(10rem-4.5rem)] bg-gradient-to-b from-[#a0c4d7] to-[#c1d8e0] bg-center bg-no-repeat relative">
+<div className="relative w-full h-96 overflow-hidden">
+  <div className="absolute flex w-full h-full animate-scroll">
+    <img src="img1.jpg" alt="image 1" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
+    <img src="img2.jpg" alt="image 2" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
+    <img src="img3.jpg" alt="image 3" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
+  </div>
+</div>
+ 
+ 
+
+
+
+   <div className="container px-4 px-lg-5 h-100">
+    <div className="row gx-4 gx-lg-5 h-100 justify-content-center text-center">
+      <div className="col-lg-8 d-flex justify-content-center align-items-center">
+        <h1 className="text-[#1D3557] text-6xl font-bold leading-tight mb-4">
+          Build Software Solutions with Flexibility and Ease
+        </h1>
+      </div>
+      <hr className="divider mx-auto w-1/4" />
+      <div className="col-lg-8 d-flex justify-content-center align-items-center">
+        <p className="text-white-75 text-xl mb-5">
+          FlexiBuilder is a powerful modular platform designed to help development teams rapidly build, customize, and deploy high-quality applications.
+        </p>
+        <a
+          className="bg-gradient-to-r from-[#ff6a00] to-[#ff9e00] text-white font-bold py-3 px-8 rounded-lg text-center shadow-lg hover:shadow-xl hover:bg-gradient-to-l focus:outline-none transition duration-300"
+          href="#plans"
+        >
+          See Plans
+        </a>
+      </div>
     </div>
   </div>
-</nav>
+</header>
 
-        <header className="masthead">
-          <div className="container px-4 px-lg-5 h-100">
-            <div className="row gx-4 gx-lg-5 h-100 align-items-center justify-content-center text-center">
-              <div className="col-lg-8 align-self-end">
-                <h1 className="text-white font-weight-bold">Build Software Solutions with Flexibility and Ease</h1>
-                <hr className="divider" />
-              </div>
-              <div className="col-lg-8 align-self-baseline">
-                <p className="text-white-75 mb-5">
-                  FlexiBuilder is a powerful modular platform designed to help development teams rapidly build, customize, and deploy high-quality applications!
-                </p>
-                <a className="btn btn-primary btn-xl" href="#plans">See plans</a>
-              </div>
-            </div>
-          </div>
-        </header>
+
+
+
+
+
+
         {/* <!-- About--> */}
-        <section id="about" className="py-12 bg-gray-100">
-        <h2 className="text-center text-2xl font-bold mb-4">How It Works</h2>
+        <section id="about" className="space-y-8">
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 px-4 lg:px-16">
+        <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">How It Works</h1>
+       
+   <div className="flex flex-col md:flex-row justify-center items-stretch space-y-4 md:space-y-0 md:space-x-4">
+            <About
+              title="1. Choose Your Plan"
+              detail="💰 Transparent, fixed pricing – Select the plan that best fits your needs (Basic, Pro, or Custom).📜 Clear package details – Know exactly what’s included."
+            />
+            <About
+              title="2. Submit Your Content"
+              detail="📝 Fill out a form & upload materials – Provide text, images, and branding elements.
+🎨 Choose your style & preferences – Share your design inspirations."
+            />
+            <About
+              title="3. We Build Your Website"
+              detail="💻 Fast development – For example, Basic Plan: 14 days, Pro Plan: 30 days.
+📢 Regular updates – Stay informed about the progress."
+            />
+            <About
+              title="4. Launch & Support"
+              detail="🚀 Final review & approval – Ensure everything meets your expectations before going live.
+🔧 Free 1-month support – We provide assistance to ensure your website runs smoothly."
+            />
+            
+              </div>
+              </section>
 
-              <div className="text-center">
-                <div className="mt-5">
-                  <div className="mb-2">
-                    <i className="bi-gem text-4xl text-blue-500"></i>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Choose Your Plan</h3>
-                  <p className="text-gray-600">
-                    Select a plan that fits your needs—whether you're a beginner or an enterprise, we've got you covered.
-                  </p>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="mt-5">
-                  <div className="mb-2">
-                    <i className="bi-globe text-4xl text-blue-500"></i>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">One-on-One Consultation</h3>
-                  <p className="text-gray-600">
-                    Start with a personalized session to understand your unique needs, goals, and vision for the project.
-                  </p>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="mt-5">
-                  <div className="mb-2">
-                    <i className="bi-laptop text-4xl text-blue-500"></i>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Custom Development</h3>
-                  <p className="text-gray-600">
-                    We develop your project from the ground up, ensuring it’s scalable, secure, and perfectly aligned with your goals.
-                  </p>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="mt-5">
-                  <div className="mb-2">
-                    <i className="bi-laptop text-4xl text-blue-500"></i>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">Seamless Deployment</h3>
-                  <p className="text-gray-600">
-                    Launch your project with confidence, backed by robust support and smooth integration.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          <section id="services" className="py-12 bg-white">
+          {/* <section id="services" className="py-12 bg-white">
             <div className="container mx-auto px-4 lg:px-16">
               <h2 className="text-center text-2xl font-bold mb-4">What Can We Do</h2>
               <hr className="w-16 mx-auto mb-8 border-t-4 border-blue-500" />
@@ -284,39 +302,34 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </section>
+          </section> */}
 
          {/* <!-- Pricing--> */}
         <section id="pricing" className="space-y-8">
-          <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">Our Pricing</h1>
-          <h2 className="text-2xl text-gray-700 text-center">Special Subscription Offer: Lock in Promotional Pricing Today!</h2>
+          <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">Get Your Plan</h1>
           <div className="flex flex-col md:flex-row justify-center items-stretch space-y-4 md:space-y-0 md:space-x-4">
 
             <PlanCard
-              planName="Custom Web Development"
-              price="USD 1,999"
-              features={[
-                "Next.js application",
-                "One request at a time",
-                "Average 2 weeks delivery",
-                "Revise until 100% satisfied",
-                "Flexible maintenance policy",
-                "Easy credit-card payments",
-              ]}
+              planName="Simple Website"
+              price="$500"
+              description="Basic static page with text and images"
+              example="About Us, Contact, FAQ, Services"
               buttonText="Get started"
               buttonLink="https://buy.stripe.com/aEU3fvcLU54I83S6oq"
             />
             <PlanCard
-              planName="Custom Mobile Development"
-              price="USD 2,999"
-              features={[
-                "iOS & Android application",
-                "One request at a time",
-                "Average 4 weeks delivery",
-                "Revise until 100% satisfied",
-                "Flexible maintenance policy",
-                "Easy credit-card payments",
-              ]}
+              planName="Intermediate Website"
+              price="$1000"
+              description="Custom design, forms, animations, interactive sections"
+              example="Product Listings, Blog, Portfolio, Booking Page"
+              buttonText="Get started"
+              buttonLink="https://buy.stripe.com/00gaHX27g40E2Jy5kl"
+            />
+            <PlanCard
+              planName="Complex Website"
+              price="$1500+"
+              description="Advanced features like databases, payments, logins"
+              example="Shopping Cart, User Dashboard, Custom Web Apps"
               buttonText="Get started"
               buttonLink="https://buy.stripe.com/00gaHX27g40E2Jy5kl"
             />
@@ -335,8 +348,8 @@ export default function Home() {
             </div>
         </section>  */}
         {/* Frequently Asked Questions */}
-        <section className="space-y-8" id="faq">
-          <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">Frequently Asked Questions</h1>
+        <section className="space-y-8 py-12" id="faq">
+        <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">Frequently Asked Questions</h1>
           <div className="mx-auto mt-8 max-w-4xl sm:mt-14">
             <div className='space-y-4'>
 
@@ -348,30 +361,8 @@ export default function Home() {
                 Once subscribed, you’re able to add as many programming requests to your queue as you’d like, and they will be delivered one by one.
               </CollapsibleSection>
 
-              <CollapsibleSection summary="How does the pause feature work?">
-                We understand you may not have enough programming work to fill up entire month. Perhaps you only have one or two programming requests at the moment. That’s where pausing your subscription comes in handy.
-
-                Billing cycles are based on 31 day period. Let’s say you sign up and use the service for 21 days, and then decide to pause your subscription. This means that the billing cycle will be paused and you’ll have 10 days of service remaining to be used anytime in the future.
-              </CollapsibleSection>
-
-              <CollapsibleSection summary="What if I only have a single request?">
-                That’s fine. You can pause your subscription when finished and return  when you have additional web development needs. There’s no need to let the remainder of your subscription go to waste.
-              </CollapsibleSection>
-
-              <CollapsibleSection summary="Who are the programmers?">
-                You might be surprised to hear this, but FlexiBuilder is actually an agency of one. This means you’ll work directly with me, founder of FlexiBuilder. I have 10+ years of professional experience in web and mobile software development at leading companies, enabling effective client communication and successful product delivery. Explore my portfolio on <a href='https://www.hiwestin.com' rel="noopener" target='_blank' className='text-blue-500'>HiWestin.com</a>!
-              </CollapsibleSection>
-
-              <CollapsibleSection summary="How is the maintenance policy?">
-                Our maintenance policy is designed for flexibility. Subscribe to a plan, and you can promptly request feature additions or bug fixes. Once resolved, you have the freedom to cancel or pause your subscription at any time.
-              </CollapsibleSection>
-
               <CollapsibleSection summary="Are you responsible for domain generate?">
                 No, you can create the domain on your own. I’ll instruct you on linking it to your website.
-              </CollapsibleSection>
-
-              <CollapsibleSection summary="Are you responsible for Apple Developer account or Google Developer account? How about the developer account fees?">
-                No, I can assist you in creating the developer accounts, but you will own the accounts. I will be responsible for using them to develop and publish the app. The Apple Developer account costs $99 USD per year, while the Google Developer account has a one-time fee of $25 for a lifetime account.
               </CollapsibleSection>
 
               <CollapsibleSection summary="Are you responsible for Next.js hosting? How about the hosting fees?">
