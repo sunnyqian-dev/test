@@ -182,16 +182,16 @@ export default function Home() {
           <button className="text-white text-2xl md:hidden flex absolute top-4 right-4" onClick={closeNavbar}>×</button>
           <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0 text-white">
             <li>
-              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#about">How It Works</a>
+              <a className="font-medium font-bold block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#about">How It Works</a>
             </li>
             <li>
-              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#plans">Plans</a>
+              <a className="font-medium font-bold block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#plans">Plans</a>
             </li>
             <li>
-              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#contactus">Contact Us</a>
+              <a className="font-medium font-bold block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#contactus">Contact Us</a>
             </li>
             <li>
-              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#faq">FAQs</a>
+              <a className="font-medium font-bold block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#faq">FAQs</a>
             </li>
           </ul>
         </div>
@@ -199,22 +199,22 @@ export default function Home() {
       <div className={`hidden w-full md:flex md:items-center md:w-auto`}>
         <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
             <li>
-              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#about">
+              <a className="text-gray-800 hover:text-gray-600  font-bold font-medium block py-2 md:py-0 no-underline" href="#about">
                 How It Works
               </a>
             </li>
             <li>
-              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#plans">
+              <a className="text-gray-800 hover:text-gray-600  font-bold font-medium block py-2 md:py-0 no-underline" href="#plans">
                 Plans
               </a>
             </li>
             <li>
-              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#contactus">
+              <a className="text-gray-800 hover:text-gray-600  font-bold font-medium block py-2 md:py-0 no-underline" href="#contactus">
                 Contact Us
               </a>
             </li>
             <li>
-              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#faq">
+              <a className="text-gray-800 hover:text-gray-600 font-bold font-medium block py-2 md:py-0 no-underline" href="#faq">
                 FAQs
               </a>
             </li>
