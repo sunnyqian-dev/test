@@ -169,7 +169,7 @@ export default function Home() {
       <nav>
       <div className=" mx-auto flex items-center justify-between p-4">
         <div className="flex items-center">
-          <img src="/img1.jpg" alt="logo" className="w-14 h-14 mr-4" /> 
+          <img src="/logo.jpeg" alt="logo" className="w-14 h-14 mr-4" /> 
           <a className="text-2xl font-bold   no-underline" href="#page-top">FlexiBuilder</a>
         </div> 
         <button className="text-gray-800 focus:outline-none md:hidden flex justify-center items-center p-3 rounded-lg hover:bg-gray-200"
