@@ -129,7 +129,7 @@ export default function Home() {
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
   
-    const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault();
   
       emailjs
