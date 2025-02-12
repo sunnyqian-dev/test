@@ -124,7 +124,7 @@ export default function Home() {
 
     const [formData, setFormData] = useState({firstName: "",lastName: "",phone: "",email: "",message: ""});
   
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
       const { name, value } = e.target;
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
