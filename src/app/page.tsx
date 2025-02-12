@@ -124,12 +124,12 @@ export default function Home() {
 
     const [formData, setFormData] = useState({firstName: "",lastName: "",phone: "",email: "",message: ""});
   
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
       setFormData((prevData) => ({ ...prevData, [name]: value }));
     };
   
-    const handleSubmit = (e) => {
+    const handleSubmit = (e: React.ChangeEvent<HTMLInputElement>) => {
       e.preventDefault();
   
       emailjs
