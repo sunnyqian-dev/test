@@ -2,13 +2,12 @@
 
 import Head from 'next/head';
 import React, { useState, FunctionComponent, ReactNode } from 'react';
+import emailjs from "emailjs-com";
 // import '../../styles/styles.home.css';
  
 
 export default function Home() {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleNavbar = () => setIsOpen(!isOpen);
+  
 
   type PrimaryButtonProps = {
     text: string;
@@ -18,10 +17,10 @@ export default function Home() {
   const BuyButton: React.FC<PrimaryButtonProps> = ({ text, link}) => {
     return (
       <div className="flex justify-center items-center mt-4">
-        
-          <a     className="bg-gradient-to-r from-[#ff6a00] to-[#ff9e00] text-white font-bold py-3 px-8 rounded-lg text-center shadow-lg hover:shadow-xl hover:bg-gradient-to-l focus:outline-none transition duration-300"
-   
- href={link}> {text}</a>
+          <a className="bg-gradient-to-r from-[#ff6a00] to-[#ff9e00] text-white font-bold py-3 px-8 rounded-lg text-center shadow-lg hover:shadow-xl hover:bg-gradient-to-l focus:outline-none transition duration-300"
+              href={link}> 
+              {text}
+          </a>
       </div>
     );
   };
@@ -57,33 +56,7 @@ export default function Home() {
 
     );
   };
-
-  const CheckIcon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-gray-500 mr-4" viewBox="0 0 20 20" fill="currentColor">
-      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-    </svg>
-  );
-
-  interface CheckIconLabelProps {
-    text: string;
-    isBold?: boolean;
-  }
-
-  const CheckIconLabel: React.FC<CheckIconLabelProps> = ({ text, isBold = false }) => {
-    // Conditionally apply bold styling
-    const textStyle = isBold ? "font-bold text-base text-black-500" : "text-base text-gray-500";
-
-    return (
-      <div className="flex justify-start items-center mt-4 mb-1">
-        <div className="flex items-center">
-          <CheckIcon />
-        </div>
-        <div className="flex items-center ml-4">
-          <p className={textStyle}>{text}</p>
-        </div>
-      </div>
-    );
-  };
+ 
 
   interface AboutProps{
     title:string;
@@ -92,13 +65,22 @@ export default function Home() {
   const About: React.FC<AboutProps>=({
     title,
     detail
-  })=>{
+  })=>{ 
+ 
+    const lines = detail.split("</br>");
+ 
+    console.log(lines[0]);
+
     return(
+      
       <div className="bg-gradient-to-r from-[#f8c9b6] to-[#f9e1cc]shadow-lg rounded-lg p-8 flex-1">
       <div className='flex flex-col items-start'>
         <div className="text-lg font-semibold ">{title}&nbsp;&nbsp;</div>
-        <div className='flex flex-row items-center '>
-          <div className="space-y-1">{detail}</div>
+        <div className='flex flex-col items-center '>
+        {lines.map((line, index) => (
+            <p key={index}>{line}</p>
+          ))}
+ 
         </div>
       </div>
       </div>
@@ -123,7 +105,7 @@ export default function Home() {
     buttonLink
   }) => {
     return (
-      <div className="bg-gradient-to-r from-[#a0d6d1] to-[#c3e5e1] shadow-lg rounded-lg p-8 flex-1">
+      <div className="bg-gradient-to-r from-[#B8E2DE] to-[#D6F0EC] shadow-lg rounded-lg p-8 flex-1">
         <div className='flex flex-col items-start'>
           <div className="text-lg font-semibold">{planName}&nbsp;&nbsp;</div>
           <div className='flex flex-row items-center '>
@@ -140,6 +122,38 @@ export default function Home() {
     );
   };
 
+    const [formData, setFormData] = useState({firstName: "",lastName: "",phone: "",email: "",message: ""});
+  
+    const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevData) => ({ ...prevData, [name]: value }));
+    };
+  
+    const handleSubmit = (e) => {
+      e.preventDefault();
+  
+      emailjs
+        .send("service_qhq8xet", "template_kps7trw", formData, "BICgRZ1JDbw76UiE5")
+        .then(
+          (response) => {
+            console.log("Message sent successfully", response);
+            // Optionally, reset form data after successful submission
+            setFormData({ firstName: "", lastName: "", phone: "", email: "", message: "" });
+          },
+          (error) => {
+            console.error("Error sending message", error);
+          }
+        );
+    };
+  
+    const [isOpen, setIsOpen] = useState(false);
+
+  const toggleNavbar = () => setIsOpen(!isOpen);
+    console.log("Toggling Navbar: ", isOpen);
+  const closeNavbar = () => {
+    setIsOpen(false);
+  };
+
 
   return (
     <>
@@ -151,28 +165,52 @@ export default function Home() {
       </Head>
 
       {/* <!-- Navigation--> */}
-      <nav className="shadow">
-      <div className="container mx-auto flex items-center justify-between p-4">
-      <a className="text-xl font-bold text-gray-800 hover:text-gray-600 no-underline relative animate-glow" href="#page-top">
-  FlexiBuilder
-</a>
-
-        <button 
-          className="text-gray-800 focus:outline-none md:hidden" 
+      {/* <nav className='sticky  top-0 z-10 '> */}
+      <nav>
+      <div className=" mx-auto flex items-center justify-between p-4">
+        <div className="flex items-center">
+          <img src="/img1.jpg" alt="logo" className="w-14 h-14 mr-4" /> 
+          <a className="text-2xl font-bold   no-underline" href="#page-top">FlexiBuilder</a>
+        </div> 
+        <button className="text-gray-800 focus:outline-none md:hidden flex justify-center items-center p-3 rounded-lg hover:bg-gray-200"
           onClick={toggleNavbar}
-        >
-          <span className="text-2xl">☰</span>
-        </button>
-        <div className={`${isOpen ? "block" : "hidden"} w-full md:flex md:items-center md:w-auto`}>
-          <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
+        ><span className="text-2xl">☰</span></button>
+
+       <div className={`fixed inset-0 z-50 bg-opacity-75 transform ${isOpen ? 'translate-x-0' : 'translate-x-full'} transition-transform duration-300 overflow-auto`} 
+            onClick={closeNavbar} >
+         <div className="absolute top-0 right-0 w-64 bg-gray-900 p-4"onClick={(e) => e.stopPropagation()}>
+          <button className="text-white text-2xl md:hidden flex absolute top-4 right-4" onClick={closeNavbar}>×</button>
+          <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0 text-white">
+            <li>
+              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#about">How It Works</a>
+            </li>
+            <li>
+              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#plans">Plans</a>
+            </li>
+            <li>
+              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#contactus">Contact Us</a>
+            </li>
+            <li>
+              <a className="font-medium block py-2 md:py-0 no-underline" onClick={closeNavbar} href="#faq">FAQs</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div className={`hidden w-full md:flex md:items-center md:w-auto`}>
+        <ul className="flex flex-col md:flex-row md:space-x-6 mt-4 md:mt-0">
             <li>
               <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#about">
                 How It Works
               </a>
             </li>
             <li>
-              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#pricing">
+              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#plans">
                 Plans
+              </a>
+            </li>
+            <li>
+              <a className="text-gray-800 hover:text-gray-600 font-medium block py-2 md:py-0 no-underline" href="#contactus">
+                Contact Us
               </a>
             </li>
             <li>
@@ -180,37 +218,33 @@ export default function Home() {
                 FAQs
               </a>
             </li>
+           
           </ul>
         </div>
-      </div>
+    </div>
       </nav>
 
 {/* home */}
 <header className="pt-0 pb-[calc(10rem-4.5rem)] bg-gradient-to-b from-[#a0c4d7] to-[#c1d8e0] bg-center bg-no-repeat relative">
-<div className="relative w-full h-96 overflow-hidden">
-  <div className="absolute flex w-full h-full animate-scroll">
-    <img src="img1.jpg" alt="image 1" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
-    <img src="img2.jpg" alt="image 2" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
-    <img src="img3.jpg" alt="image 3" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
+  <div className="relative w-full h-96 overflow-hidden">
+    <div className="absolute flex w-full h-full animate-scroll">
+      <img src="img1.jpg" alt="image 1" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
+      <img src="img2.jpg" alt="image 2" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
+      <img src="img3.jpg" alt="image 3" className="w-full h-full object-cover flex-shrink-0 animate-slide" />
+    </div>
   </div>
-</div>
- 
- 
-
-
-
-   <div className="container px-4 px-lg-5 h-100">
-    <div className="row gx-4 gx-lg-5 h-100 justify-content-center text-center">
-      <div className="col-lg-8 d-flex justify-content-center align-items-center">
-        <h1 className="text-[#1D3557] text-6xl font-bold leading-tight mb-4">
+  <div className="container mx-auto h-100">
+  <div className="row h-100 justify-content-center text-center">
+    <div className="col-lg-8 d-flex justify-content-center align-items-center mt-5">
+        <h1 className="text-[#1D3557] text-3xl font-bold leading-tight mb-4">
           Build Software Solutions with Flexibility and Ease
         </h1>
-      </div>
-      <hr className="divider mx-auto w-1/4" />
-      <div className="col-lg-8 d-flex justify-content-center align-items-center">
-        <p className="text-white-75 text-xl mb-5">
+        {/* <hr className="divider mx-auto w-1/4 border-t-4 border-[#1D3557]" /> */}
+        <p className="text-[#1D3557] text-xl font-bold mb-5 mt-2">
           FlexiBuilder is a powerful modular platform designed to help development teams rapidly build, customize, and deploy high-quality applications.
         </p>
+      </div>
+      <div className=" d-flex justify-content-center align-items-center  mt-8">
         <a
           className="bg-gradient-to-r from-[#ff6a00] to-[#ff9e00] text-white font-bold py-3 px-8 rounded-lg text-center shadow-lg hover:shadow-xl hover:bg-gradient-to-l focus:outline-none transition duration-300"
           href="#plans"
@@ -223,11 +257,6 @@ export default function Home() {
 </header>
 
 
-
-
-
-
-
         {/* <!-- About--> */}
         <section id="about" className="space-y-8">
 
@@ -236,76 +265,30 @@ export default function Home() {
    <div className="flex flex-col md:flex-row justify-center items-stretch space-y-4 md:space-y-0 md:space-x-4">
             <About
               title="1. Choose Your Plan"
-              detail="💰 Transparent, fixed pricing – Select the plan that best fits your needs (Basic, Pro, or Custom).📜 Clear package details – Know exactly what’s included."
+              detail="💰 Transparent, fixed pricing – Select the plan that best fits your needs (Basic, Pro, or Custom).</br>
+              📜 Clear package details – Know exactly what’s included."
             />
             <About
               title="2. Submit Your Content"
-              detail="📝 Fill out a form & upload materials – Provide text, images, and branding elements.
+              detail="📝 Fill out a form & upload materials – Provide text, images, and branding elements.</br>
 🎨 Choose your style & preferences – Share your design inspirations."
             />
             <About
               title="3. We Build Your Website"
-              detail="💻 Fast development – For example, Basic Plan: 14 days, Pro Plan: 30 days.
+              detail="💻 Fast development – For example, Basic Plan: 14 days, Pro Plan: 30 days.</br>
 📢 Regular updates – Stay informed about the progress."
             />
             <About
               title="4. Launch & Support"
-              detail="🚀 Final review & approval – Ensure everything meets your expectations before going live.
+              detail="🚀 Final review & approval – Ensure everything meets your expectations before going live.</br>
 🔧 Free 1-month support – We provide assistance to ensure your website runs smoothly."
             />
             
               </div>
               </section>
 
-          {/* <section id="services" className="py-12 bg-white">
-            <div className="container mx-auto px-4 lg:px-16">
-              <h2 className="text-center text-2xl font-bold mb-4">What Can We Do</h2>
-              <hr className="w-16 mx-auto mb-8 border-t-4 border-blue-500" />
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <div className="text-center">
-                  <div className="mt-5">
-                    <div className="mb-2">
-                      <i className="bi-gem text-4xl text-blue-500"></i>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">Web Applications</h3>
-                    <p className="text-gray-600">Our themes are updated regularly to keep them bug free!</p>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="mt-5">
-                    <div className="mb-2">
-                      <i className="bi-laptop text-4xl text-blue-500"></i>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">Mobile Apps</h3>
-                    <p className="text-gray-600">
-                      A mobile app is a software application designed to run on mobile devices like smartphones and tablets (iOS, Android).
-                    </p>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="mt-5">
-                    <div className="mb-2">
-                      <i className="bi-globe text-4xl text-blue-500"></i>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">Enterprise/Desktop Application</h3>
-                    <p className="text-gray-600">You can use this design as is, or you can make changes!</p>
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="mt-5">
-                    <div className="mb-2">
-                      <i className="bi-heart text-4xl text-blue-500"></i>
-                    </div>
-                    <h3 className="text-xl font-semibold mb-2">More</h3>
-                    <p className="text-gray-600">True open source isn't just about code—it's about creating something with passion and care.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section> */}
-
          {/* <!-- Pricing--> */}
-        <section id="pricing" className="space-y-8">
+        <section id="plans" className="space-y-8">
           <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">Get Your Plan</h1>
           <div className="flex flex-col md:flex-row justify-center items-stretch space-y-4 md:space-y-0 md:space-x-4">
 
@@ -347,6 +330,82 @@ export default function Home() {
                  </div>
             </div>
         </section>  */}
+
+      {/* contact us */}
+      <section id="contactus" className="space-y-8">
+      <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">Get in Touch</h1>
+
+      <div className="flex flex-col bg-gradient-to-r from-[#B0B3BA] to-[#F8F6F4] md:flex-row justify-center items-stretch space-y-4 md:space-y-0 md:space-x-4 p-6 rounded-lg shadow-lg  mx-auto">
+      <div className="w-full md:w-2/5 flex justify-center items-center p-4">
+        <img src="/img1.jpg" alt="Contact Us" className="w-full h-auto rounded-lg shadow-md" />
+      </div>
+      {/* <div className="w-full md:w-1/5 p-4 bg-white rounded-lg shadow-md">
+        <h2 className="text-xl font-bold">Contact Information</h2>
+        <p className="mt-2">📞 Phone: +1 123-456-7890</p>
+        <p>✉️ Email: example@example.com</p>
+      </div> */}
+
+      <div className="w-full md:w-2/5 p-4">
+        {false ? (
+          <p className="text-green-500">Your message has been sent!</p>
+        ) : (
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="firstName"
+              value={formData.firstName}
+              onChange={handleChange}
+              placeholder="First Name"
+              className="w-full p-2 mb-3 border rounded"
+              required
+            />
+            <input
+              type="text"
+              name="lastName"
+              value={formData.lastName}
+              onChange={handleChange}
+              placeholder="Last Name"
+              className="w-full p-2 mb-3 border rounded"
+              required
+            />
+            <input
+              type="text"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="Phone"
+              className="w-full p-2 mb-3 border rounded"
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              className="w-full p-2 mb-3 border rounded"
+              required
+            />
+            
+            <textarea
+              name="message"
+              placeholder="How can we help you?"
+              value={formData.message}
+              onChange={handleChange}
+              className="w-full p-2 mb-2 border rounded h-40" // Tailwind class to adjust height
+              required
+            />
+            <button type="submit" className="bg-[#4F6D7A] hover:bg-[#3A4F58] text-white px-4 py-2 rounded">
+              Submit
+            </button>
+          </form>
+        )}
+      </div>
+    </div>
+    </section>
+
+
+
         {/* Frequently Asked Questions */}
         <section className="space-y-8 py-12" id="faq">
         <h1 className="mt-4 text-3xl lg:text-4xl xl:text-5xl font-bold lg:mt-16 xl:mt-16 text-center">Frequently Asked Questions</h1>
