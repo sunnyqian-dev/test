@@ -298,7 +298,7 @@ export default function Home() {
               description="Basic static page with text and images"
               example="About Us, Contact, FAQ, Services"
               buttonText="Get started"
-              buttonLink="https://buy.stripe.com/aEU3fvcLU54I83S6oq"
+              buttonLink="https://buy.stripe.com/7sI3fv4fobt63NCfZ1"
             />
             <PlanCard
               planName="Intermediate Website"
@@ -306,7 +306,7 @@ export default function Home() {
               description="Custom design, forms, animations, interactive sections"
               example="Product Listings, Blog, Portfolio, Booking Page"
               buttonText="Get started"
-              buttonLink="https://buy.stripe.com/00gaHX27g40E2Jy5kl"
+              buttonLink="https://buy.stripe.com/6oEbM17rAap20BqfZ2"
             />
             <PlanCard
               planName="Complex Website"
@@ -314,7 +314,7 @@ export default function Home() {
               description="Advanced features like databases, payments, logins"
               example="Shopping Cart, User Dashboard, Custom Web Apps"
               buttonText="Get started"
-              buttonLink="https://buy.stripe.com/00gaHX27g40E2Jy5kl"
+              buttonLink="https://buy.stripe.com/6oEg2hcLU9kY4RG3ch"
             />
           </div>
         </section>
